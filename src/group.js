@@ -27,12 +27,36 @@ class Group extends State {
         const table = document.createElement('table');
         table.id = 't1';
 
+        const headingT1 = document.createElement('h4');
+        headingT1.textContent = `My Groups`
+
+        this.div.appendChild(headingT1);
         this.div.appendChild(table);
 
+
+        const table2 = document.createElement('table');
+        table2.id = 't2';
+
+        const headingT2 = document.createElement('h4');
+        headingT2.textContent = `Other Groups`
+
+        this.div.appendChild(headingT2);
+        this.div.appendChild(table2);
+
         document.getElementById('createGroup').addEventListener('click', () => {
+            this.createGroup().then(data => {
+                const myNode = document.getElementById('t1');
+                while (myNode.lastElementChild) {
+                    myNode.removeChild(myNode.lastElementChild);
+                }
+                
+                document.getElementById('statusLabel').textContent = 'created succesfully'
+                this.getGroups();
+            });
         });
 
         this.getGroups();
+        this.getOtherGroups();
     }
 
     change(group) {
@@ -76,8 +100,13 @@ class Group extends State {
             },
         });
 
+        
         response.json().then(response => {
+            console.log("callling get grojups $$$", response.data);
             const table = document.getElementById('t1');
+            while (table.lastElementChild) {
+                table.removeChild(table.lastElementChild);
+            }
             util.createTableHeading(
                 table,
                 ['group_id', 'name', 'description'],
@@ -98,12 +127,105 @@ class Group extends State {
     
                 table.appendChild(row);
             }
-    
-            this.div.appendChild(table);
         }).catch(e => {
             const errorLabel = util.createLabel({id: 'errorLabel', text: 'Error getting events' });
             this.div.appendChild(errorLabel);
         });
+    }
+
+    async getOtherGroups() {
+        const response = await fetch(`${util.getBaseUrl()}/groups`, {
+            method: 'GET',
+            mode: "cors",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        });
+
+        response.json().then(response => {
+            const table = document.getElementById('t2');
+            util.createTableHeading(
+                table,
+                ['group_id', 'name', 'description', 'join'],
+            )
+    
+            for (let i = 0; i < response.data.length; i++) {
+                const element = response.data[i];
+                const row = util.createTableRow([
+                    element.groupId,
+                    element.name,
+                    element.description,
+                ]);
+
+                const joinButton  = util.createButton({ id:'createEvent', text: 'join', styleClassName: 'outer'});
+                row.appendChild(joinButton.div);
+
+                joinButton.button.addEventListener('click', () => {
+                    this.joinGroup(element.groupId).then(data => {
+                        this.getGroups();
+                    });
+                });
+                    
+                table.appendChild(row);
+            }
+    
+            // this.div.appendChild(table);
+        }).catch(e => {
+            const errorLabel = util.createLabel({id: 'errorLabel', text: 'Error getting events' });
+            this.div.appendChild(errorLabel);
+        });
+    }
+
+    async createGroup() {
+        const name = document.getElementById('groupName').value;
+        const description = document.getElementById('description').value;
+        const size = document.getElementById('size').value;
+
+        const body = {
+            groupInfo: {
+                name,
+                description,
+                size: parseInt(size),
+            },
+            members: [
+                {
+                    memberId: this.user.userId,
+                }
+            ]
+        }
+    
+        const result = await fetch(`${util.getBaseUrl()}/group`, {
+            method: 'POST',
+            mode: "cors",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(body),
+        });
+    
+        return result.json();
+    }
+
+    async joinGroup(groupId) {
+        const body = {
+            groupId,
+            members: [
+                {
+                    memberId: this.user.userId,
+                }
+            ]
+        }
+    
+        const result = await fetch(`${util.getBaseUrl()}/group/members`, {
+            method: 'POST',
+            mode: "cors",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(body),
+        });
+    
+        return result.json();
     }
 };
 
