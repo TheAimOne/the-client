@@ -14,7 +14,7 @@ class EventState extends State {
         util.clearPage(this.div);
 
         const heading = document.createElement('h3');
-        heading.textContent = `Details of group: ${args.group.groupId} user ${args.user.userId}`
+        heading.textContent = `Details of group: ${args.group.name} user ${args.user.name}`
 
         this.div.appendChild(heading);
 

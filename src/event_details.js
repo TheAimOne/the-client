@@ -13,7 +13,7 @@ class EventDetailState extends State {
         this.data = args;
 
         const heading = document.createElement('h3');
-        heading.textContent = `Details of event: ${args.event.eventId}, group: ${args.group.groupId}, user: ${args.user.userId}`
+        heading.textContent = `Details of event: ${args.event.name}, group: ${args.group.name}, user: ${args.user.name}`
 
         this.div.appendChild(heading);
 

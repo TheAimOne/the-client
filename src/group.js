@@ -18,7 +18,7 @@ class Group extends State {
         util.clearPage(this.div);
 
         const heading = document.createElement('h3');
-        heading.textContent = `Details of user: ${args.userId}`
+        heading.textContent = `Details of user: ${args.name}`
 
         this.div.appendChild(heading);
         
