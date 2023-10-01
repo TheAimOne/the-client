@@ -35,9 +35,9 @@ class Group extends State {
         this.getGroups();
     }
 
-    change(args) {
-        args.userId = this.user.userId;
-        this.stateMachine.setState('eventState', args);
+    change(group) {
+        const data = {user: this.user, group}
+        this.stateMachine.setState('eventState', data);
     }
 
     initializeUI() {

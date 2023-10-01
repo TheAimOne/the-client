@@ -10,10 +10,10 @@ class EventDetailState extends State {
 
     init(args) {
         util.clearPage(this.div);
-        this.eventDetails = args;
+        this.data = args;
 
         const heading = document.createElement('h3');
-        heading.textContent = `Details of event: ${args.eventId}, group: ${args.groupId}, user: ${args.userId}`
+        heading.textContent = `Details of event: ${args.event.eventId}, group: ${args.group.groupId}, user: ${args.user.userId}`
 
         this.div.appendChild(heading);
 
@@ -51,7 +51,7 @@ class EventDetailState extends State {
     }
 
     async updateEventMembers() {
-        const response = await fetch(`${util.getBaseUrl()}/events/members?eventId=${this.eventDetails.eventId}`, {
+        const response = await fetch(`${util.getBaseUrl()}/events/members?eventId=${this.data.event.eventId}`, {
             method: 'GET',
             mode: "cors",
             headers: {
@@ -86,9 +86,9 @@ class EventDetailState extends State {
 
     async joinEvent() {
         const data = {
-            eventId: this.eventDetails.eventId,
-            memberId: this.eventDetails.creatorId,
-            groupId: this.eventDetails.groupId,
+            eventId: this.data.event.eventId,
+            memberId: this.data.event.creatorId,
+            groupId: this.data.event.groupId,
             action: 'JOIN',
         };
 

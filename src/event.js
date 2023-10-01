@@ -14,13 +14,13 @@ class EventState extends State {
         util.clearPage(this.div);
 
         const heading = document.createElement('h3');
-        heading.textContent = `Details of group: ${args.groupId} user ${args.userId}`
+        heading.textContent = `Details of group: ${args.group.groupId} user ${args.user.userId}`
 
         this.div.appendChild(heading);
 
         initializeUI(this.div);
         
-        this.updateEvents(this.data.groupId, this.div);
+        this.updateEvents();
 
         const table = document.createElement('table');
         table.id = 't1';
@@ -38,19 +38,18 @@ class EventState extends State {
                 
                 document.getElementById('statusLabel').textContent = 'created succesfully'
 
-                this.updateEvents(this.data.groupId, this.div);
+                this.updateEvents();
             });
         });
     }
 
-    change(args) {
-        args.userId = this.data.userId;
-        args.groupId = this.data.groupId;
-        this.stateMachine.setState('eventDetailsState', args);
+    change(event) {
+        const data = {user: this.data.user, group: this.data.group, event};
+        this.stateMachine.setState('eventDetailsState', data);
     }
 
-    async updateEvents(groupId, app) {
-        const response = await fetch(`${util.getBaseUrl()}/groups/events?groupId=${groupId}`, {
+    async updateEvents() {
+        const response = await fetch(`${util.getBaseUrl()}/groups/events?groupId=${this.data.group.groupId}`, {
             method: 'GET',
             mode: "cors",
             headers: {
@@ -81,10 +80,10 @@ class EventState extends State {
                 table.appendChild(row);
             }
     
-            app.appendChild(table);
+            this.div.appendChild(table);
         }).catch(e => {
             const errorLabel = util.createLabel({id: 'errorLabel', text: 'Error getting events' });
-            app.appendChild(errorLabel);
+            this.div.appendChild(errorLabel);
         });
     }
 
