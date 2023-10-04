@@ -116,6 +116,24 @@ class EventState extends State {
         return result.json();
     }
     
+    async joinEvent(eventId) {
+        const body = {
+            groupId: this.data.group.groupId,
+            eventId,
+            userId: this.data.user.userId,
+        }
+
+        const result = await fetch(`${util.getBaseUrl()}/events/members`, {
+            method: 'POST',
+            mode: "cors",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(body),
+        });
+    
+        return result.json();
+    }
 }
 
 function initializeUI(element) {

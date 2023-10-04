@@ -43,13 +43,13 @@ class UserState extends State {
         const button  = util.createButton({ id:'createUser', text: 'create user', styleClassName: 'outer'});
 
         const userName = util.createLabelAndInput({
-            label: { id:'userNameLabel', text: 'user Name: '},
-            input: { id:'userName', text: 'user Name'},
+            label: { id:'userNameLabel', text: 'user name: '},
+            input: { id:'userName', text: 'user name'},
         });
 
         const shortName = util.createLabelAndInput({
-            label: { id:'shortNameLabel', text: 'short Name: '},
-            input: { id:'shortName', text: 'short Name'},
+            label: { id:'shortNameLabel', text: 'short name: '},
+            input: { id:'shortName', text: 'short name'},
         });
 
         const email = util.createLabelAndInput({
@@ -110,7 +110,7 @@ class UserState extends State {
             const table = document.getElementById('t1');
             util.createTableHeading(
                 table,
-                ['user_id', 'name', 'short_name'],
+                ['user id', 'name', 'short name'],
             )
     
             for (let i = 0; i < response.data.length; i++) {
