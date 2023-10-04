@@ -17,8 +17,6 @@ class EventDetailState extends State {
 
         this.div.appendChild(heading);
 
-        console.log('dinga furrr', args);
-
         const backToEventButton = util.createButton({ id: 'backToEventButton', text: 'back to events', styleClassName: 'outer' });
         this.div.appendChild(backToEventButton.div);
         backToEventButton.button.addEventListener('click', () => {
@@ -34,7 +32,6 @@ class EventDetailState extends State {
             }
             this.joinEvent()
                 .then(res => {
-                    console.log('dinga hou', res);
                     this.updateEventMembers();
                 });
         });

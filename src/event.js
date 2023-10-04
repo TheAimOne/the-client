@@ -61,7 +61,7 @@ class EventState extends State {
             const table = document.getElementById('t1');
             util.createTableHeading(
                 table,
-                ['name', 'type', 'event_id'],
+                ['name', 'type', 'event id'],
             )
     
             for (let i = 0; i < response.data.length; i++) {

@@ -146,7 +146,7 @@ class Group extends State {
             const table = document.getElementById('t2');
             util.createTableHeading(
                 table,
-                ['group_id', 'name', 'description', 'join'],
+                ['group id', 'name', 'description', 'join'],
             )
     
             for (let i = 0; i < response.data.length; i++) {
