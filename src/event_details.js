@@ -84,7 +84,7 @@ class EventDetailState extends State {
     async joinEvent() {
         const data = {
             eventId: this.data.event.eventId,
-            memberId: this.data.event.creatorId,
+            memberId: this.data.user.userId,
             groupId: this.data.event.groupId,
             action: 'JOIN',
         };

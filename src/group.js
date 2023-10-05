@@ -158,7 +158,9 @@ class Group extends State {
                 ]);
 
                 const joinButton  = util.createButton({ id:'createEvent', text: 'join', styleClassName: 'outer'});
-                row.appendChild(joinButton.div);
+                const td = document.createElement('td');
+                td.appendChild(joinButton.div);
+                row.appendChild(td);
 
                 joinButton.button.addEventListener('click', () => {
                     this.joinGroup(element.groupId).then(data => {

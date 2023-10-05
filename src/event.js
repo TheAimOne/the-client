@@ -94,8 +94,8 @@ class EventState extends State {
         const standby = document.getElementById('standbyInput').value;
     
         const body = {
-            groupId: this.data.groupId,
-            creatorId: this.data.userId,
+            groupId: this.data.group.groupId,
+            creatorId: this.data.user.userId,
             name,
             type,
             params: {
