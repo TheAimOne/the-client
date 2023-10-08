@@ -102,7 +102,6 @@ class Group extends State {
 
         
         response.json().then(response => {
-            console.log("callling get grojups $$$", response.data);
             const table = document.getElementById('t1');
             while (table.lastElementChild) {
                 table.removeChild(table.lastElementChild);
@@ -164,7 +163,14 @@ class Group extends State {
 
                 joinButton.button.addEventListener('click', () => {
                     this.joinGroup(element.groupId).then(data => {
-                        this.getGroups();
+                        if (data.Status && data.Status > 200) {
+                            document.getElementById('statusLabel').textContent = data.Message;
+                        } else {
+                            this.getGroups();
+                        }
+                        
+                    }).catch(e => {
+                        console.log('error while parsing response',e);
                     });
                 });
                     
@@ -226,7 +232,7 @@ class Group extends State {
             },
             body: JSON.stringify(body),
         });
-    
+
         return result.json();
     }
 };

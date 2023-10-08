@@ -17,22 +17,29 @@ class EventDetailState extends State {
 
         this.div.appendChild(heading);
 
-        const backToEventButton = util.createButton({ id: 'backToEventButton', text: 'back to events', styleClassName: 'outer' });
+        const backToEventButton = util.createButton({ id: 'backToUsersButton', text: 'back to users', styleClassName: 'outer' });
         this.div.appendChild(backToEventButton.div);
         backToEventButton.button.addEventListener('click', () => {
             this.change();
         })
 
+        const status = util.createLabel({ id: 'statusLabel', text: 'no status', styleClassName: 'inner'});
+        this.div.appendChild(status);
+
         const joinEventButton = util.createButton({ id: 'joinEventButton', text: 'join event', styleClassName: 'outer' });
         this.div.appendChild(joinEventButton.div);
         joinEventButton.button.addEventListener('click', () => {
-            const myNode = document.getElementById('event_member_table');
-            while (myNode.lastElementChild) {
-                myNode.removeChild(myNode.lastElementChild);
-            }
             this.joinEvent()
                 .then(res => {
-                    this.updateEventMembers();
+                    if (res.Status && res.Status > 200) {
+                        status.textContent = res.Message;
+                    } else {
+                        const myNode = document.getElementById('event_member_table');
+                        while (myNode.lastElementChild) {
+                            myNode.removeChild(myNode.lastElementChild);
+                        }
+                        this.updateEventMembers();
+                    }
                 });
         });
 
