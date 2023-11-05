@@ -97,6 +97,7 @@ class Group extends State {
             mode: "cors",
             headers: {
                 "Content-Type": "application/json",
+                "x-auth": this.stateMachine.cache['auth'].token,
             },
         });
 
@@ -138,6 +139,7 @@ class Group extends State {
             mode: "cors",
             headers: {
                 "Content-Type": "application/json",
+                "x-auth": this.stateMachine.cache['auth'].token,
             },
         });
 
@@ -207,6 +209,7 @@ class Group extends State {
             mode: "cors",
             headers: {
                 "Content-Type": "application/json",
+                "x-auth": this.stateMachine.cache['auth'].token,
             },
             body: JSON.stringify(body),
         });
@@ -229,6 +232,7 @@ class Group extends State {
             mode: "cors",
             headers: {
                 "Content-Type": "application/json",
+                "x-auth": this.stateMachine.cache['auth'].token,
             },
             body: JSON.stringify(body),
         });

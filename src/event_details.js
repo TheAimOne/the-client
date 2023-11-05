@@ -51,7 +51,7 @@ class EventDetailState extends State {
     }
 
     change(args) {
-        this.stateMachine.setState('initialState');
+        this.stateMachine.setState('usersState');
     }
 
     async updateEventMembers() {
@@ -60,6 +60,7 @@ class EventDetailState extends State {
             mode: "cors",
             headers: {
                 "Content-Type": "application/json",
+                "x-auth": this.stateMachine.cache['auth'].token,
             },
         });
 
@@ -101,6 +102,7 @@ class EventDetailState extends State {
             mode: "cors",
             headers: {
                 "Content-Type": "application/json",
+                "x-auth": this.stateMachine.cache['auth'].token,
             },
             body: JSON.stringify(data),
         });

@@ -1,7 +1,6 @@
 const util =  require('./util');
 const State = require('./state');
 
-
 class UserState extends State {
     constructor(div, stateMachine) {
         super();
@@ -98,11 +97,13 @@ class UserState extends State {
     }
 
     async getUsers() {
+        console.log("furrr", this.stateMachine.cache['auth']);
         const response = await fetch(`${util.getBaseUrl()}/users`, {
             method: 'GET',
             mode: "cors",
             headers: {
                 "Content-Type": "application/json",
+                "x-auth": this.stateMachine.cache['auth'].token,
             },
         });
 

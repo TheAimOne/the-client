@@ -26,12 +26,16 @@ function createLabel({ id, text, styleClassName }) {
     return input;
 }
 
-function createInput({ id, text }) {
+function createInput({ id, text, type }) {
     const div  = document.createElement("div");
 
     const input = document.createElement("input");
     input.id = id;
     input.placeholder = text;
+
+    if (type) {
+        input.type = type;
+    }
 
     div.appendChild(input);
 
