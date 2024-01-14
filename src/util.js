@@ -44,13 +44,22 @@ function createInput({ id, text, type }) {
 
 function createLabelAndInput(arg) {
     const label = createLabel(arg.label);
+    const labelDiv = document.createElement('div');
+    labelDiv.className = "labelName";
+    labelDiv.append(label);
+
+
     const input = createInput(arg.input);
+
+    const inputDiv = document.createElement('div');
+    inputDiv.className = "inputValue";
+    inputDiv.append(input.input);
     
     const div = document.createElement('div');
     div.className = "outer"
 
-    div.append(label);
-    div.append(input.input);
+    div.append(labelDiv);
+    div.append(inputDiv);
 
     return div;
 }
@@ -78,6 +87,7 @@ function createTableHeading(table, headingArr) {
         const element = headingArr[i];
         const th = document.createElement('th');
         th.textContent = element;
+        th.className = 'thLabel';
         trHeading.appendChild(th);
     }
 

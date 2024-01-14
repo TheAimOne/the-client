@@ -110,6 +110,7 @@ class EventState extends State {
             mode: "cors",
             headers: {
                 "Content-Type": "application/json",
+                "x-auth": this.stateMachine.cache['auth'].token,
             },
             body: JSON.stringify(body),
         });
