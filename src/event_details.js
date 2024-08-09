@@ -1,5 +1,6 @@
 const util = require('./util');
 const State = require('./state');
+const MessageHandler = require('./message');
 
 class EventDetailState extends State {
     constructor(div, stateMachine) {
@@ -48,7 +49,63 @@ class EventDetailState extends State {
         this.div.appendChild(table);
 
         this.updateEventMembers();
+
+
+
+        //this.messageHandler = messageHandler;
+        const loadChat = util.createButton({ id: 'loadChat', text: 'Load chat', styleClassName: 'outer' });
+        this.div.appendChild(loadChat.div);
+        loadChat.button.addEventListener('click', () => {
+            const messageHandler = new MessageHandler(
+                [
+                    this.data,
+                    this.stateMachine.cache['auth'].token,
+                ]
+            );
+
+            // this.messageHandler.loadChat()
+            //     .then(res => {
+            //         if (res.Status && res.Status > 200) {
+            //             status.textContent = res.Message;
+            //         } else {
+            //             this.messageHandler.appendChatMessage(res);
+            //         }
+            //     });
+        })
     }
+
+    async sendMessage() {
+        const message = document.getElementById('chatInput').value;
+        const eventId = this.data.event.eventId;
+        const groupId = this.data.group.groupId;
+        const name = this.data.user.name;
+
+        console.log('dasd', message);
+        console.log('dasd', eventId);
+        console.log('dasd', groupId);
+        console.log('dasd', name);
+
+        const data = {
+            eventId: eventId,
+            groupId: groupId,
+            memberId: this.data.user.userId,
+            name: name,
+            content: message,
+        }
+
+        const result = await fetch(`${util.getBaseUrl()}/groups/events/messages`, {
+            method: 'POST',
+            mode: "cors",
+            headers: {
+                "Content-Type": "application/json",
+                "x-auth": this.stateMachine.cache['auth'].token,
+            },
+            body: JSON.stringify(data),
+        });
+
+        return result.json();
+    }
+
 
     change(args) {
         this.stateMachine.setState('usersState');

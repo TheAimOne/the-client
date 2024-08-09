@@ -49,7 +49,7 @@ class EventState extends State {
     }
 
     async updateEvents() {
-        const response = await fetch(`${util.getBaseUrl()}/groups/events?groupId=${this.data.group.groupId}`, {
+        const response = await fetch(`${util.getBaseUrl()}/group/events?groupId=${this.data.group.groupId}`, {
             method: 'GET',
             mode: "cors",
             headers: {
