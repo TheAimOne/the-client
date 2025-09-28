@@ -19,7 +19,18 @@ class EventState extends State {
         this.div.appendChild(heading);
 
         initializeUI(this.div);
-        
+
+        this.getVenues().then(res => {
+            console.log("the venue data", res);
+
+            const venues = util.createDropDown({
+                id: 'venueId',
+                data: res.venues,
+            });
+            
+             this.div.appendChild(venues);
+        });
+
         this.updateEvents();
 
         const table = document.createElement('table');
@@ -93,12 +104,16 @@ class EventState extends State {
         const type = document.getElementById('typeInput').value;
         const total = document.getElementById('totalInput').value;
         const standby = document.getElementById('standbyInput').value;
+        const venueId = document.getElementById('venueId').value;
+        console.log('ramba haooiuu', venueId);
+        
     
         const body = {
             groupId: this.data.group.groupId,
             creatorId: this.data.user.userId,
             name,
             type,
+            venueId,
             params: {
                 total,
                 standby,
@@ -137,6 +152,22 @@ class EventState extends State {
     
         return result.json();
     }
+
+    async getVenues() {
+        const body = {}
+
+        const result = await fetch(`${util.getBaseUrl()}/venues`, {
+            method: 'POST',
+            mode: "cors",
+            headers: {
+                "Content-Type": "application/json",
+                "x-auth": this.stateMachine.cache['auth'].token,
+            },
+            body: JSON.stringify(body),
+        });
+    
+        return result.json();
+    }
 }
 
 function initializeUI(element) {
@@ -161,7 +192,6 @@ function initializeUI(element) {
         label: { id:'standbyLabel', text: 'standby: '},
         input: { id:'standbyInput', text: 'standby'},
     });
-    
     const status = util.createLabel({ id: 'statusLabel', text: 'no status', styleClassName: 'inner'});
     
     element.appendChild(eventName);

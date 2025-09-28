@@ -107,6 +107,26 @@ function createTableRow(textArr) {
     return row;
 }
 
+function createDropDown({ id, data }) {
+    const select = document.createElement('select');
+    select.id = id;
+
+    for(let i = 0; i < data.length; i++) {
+        const o = data[i];
+        const option = document.createElement('option');
+        option.value = o.id;
+        option.id = o.id;
+        option.textContent = o.name;
+        select.appendChild(option);
+    }
+
+    const div = document.createElement('div');
+    div.className = "outer"
+    div.appendChild(select)
+    
+    return div;
+}
+
 module.exports = {
     createButton,
     createLabel,
@@ -117,4 +137,5 @@ module.exports = {
     createTableHeading,
     createTableRow,
     getBaseUrl,
+    createDropDown,
 };
